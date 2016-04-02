@@ -1,0 +1,65 @@
+body{
+  background-color: gainsboro;
+}
+
+b{
+	font-size: 20px;
+}
+
+span {
+	font-size: 20px;
+}
+
+#Juego {
+	height: 30%;
+    width: 100%;
+}
+
+#Mensajes {
+	height: 30%;
+    width: 30%;
+}
+.cuadrado {
+	width: 60px;
+	height: 60px;
+	border: black 2px solid;
+	background-color: aqua;
+	text-align: center;
+	border-radius: 10px;
+}
+
+td {
+	padding: 2px;
+}
+
+#table {
+    border-collapse:separate;
+
+}
+
+#MyTable {
+	
+	border: 0;
+	margin: 5px;
+ 	padding: 5px;
+
+}
+
+p {
+	font-size: 30px;
+}
+
+#Opciones {
+		
+	margin-left: 40%;
+	
+}
+
+
+input {
+	border: 0px;
+	background-color: rgba(0, 0, 0, 0.12);
+	width: 40px;
+	height: 40px;
+	text-align: center;
+}
