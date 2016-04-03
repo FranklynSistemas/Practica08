@@ -4,13 +4,13 @@ Es un juego que tiene como finalidad poner a prueba la agilidad mental del usuar
 
 # Juego
 
-[Jugar]:http://franklynsistemas.github.io/Practica06/
+Jugar:http://franklynsistemas.github.io/Practica06/
 
 # Objetivo.
 
 El usuario vera varios cuadros que luego de un tiempo desaparecerán, la idea del juego es adivinar que cuadros desaparecieron en el orden como iban apareciendo.
 
-![Ocupado](https://dl.dropboxusercontent.com/u/181689/puzzle/puzzleOcupado.gif)
+![Ocupado](https://drive.google.com/file/d/0B2ixri2wRRobZ1V3Y3FualFGczA/view?usp=sharing)
 
 Al finalizar la validación el juego deberá realizar el cambio de pieza presionada al espacio disponible.
 
@@ -74,7 +74,7 @@ Para la creacion de este juego se hizo uso de JQuery version 2.2, sus funciones 
         return position;
     }
 
-    
+
 ```
 
 
