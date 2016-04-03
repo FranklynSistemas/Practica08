@@ -2,10 +2,6 @@
 
 Es un juego que tiene como finalidad poner a prueba la agilidad mental del usuario
 
-# Jugar
-
-http://franklynsistemas.github.io/Practica06/
-
 # Objetivo.
 
 El usuario vera varios cuadros que luego de un tiempo desaparecerán, la idea del juego es adivinar que cuadros desaparecieron en el orden como iban apareciendo.
@@ -20,15 +16,18 @@ También se cuenta con un tiempo límite para pasar cada escenario este tiempo e
 
 ![Tiempo](https://dl.dropboxusercontent.com/u/96802130/Tiempo.gif)
 
-El juego cuenta con 3 niveles, cada uno tiene una velocidad diferente para mostrar los cuadros aleatorios, además que por cada nivel el número de cuadros que se muestra varia, en el primer nivel es de 3 el segundo de 5 y el último de 7.
+El juego cuenta con 3 niveles, cada uno tiene una velocidad diferente para mostrar los cuadros aleatorios, además por cada nivel el número de cuadros que se muestra varia, en el primer nivel es de 3 el segundo de 5 y el último de 7.
 
 ![Niveles](https://dl.dropboxusercontent.com/u/96802130/Niveles.gif)
 
-Para ayudar al usuario a terminar el juego se cuenta con un botón de ayuda el cual al iniciar tiene 5 posibilidades si se usan estas disminuyen pero si se logra llegar al siguiente nivel estas ayudas aumentan en 2.
+Para ayudar al usuario a terminar el juego se cuenta con un botón de ayuda el cual al iniciar tiene 5 posibilidades, si se usan estas disminuyen pero si se logra llegar al siguiente nivel estas ayudas aumentan en 2.
 
 ![Ayudas](https://dl.dropboxusercontent.com/u/96802130/Ayudas.gif)
 
 
+# Jugar
+
+http://franklynsistemas.github.io/Practica06/
 
 
 # Desarrollo
@@ -120,7 +119,7 @@ Luego se utilizan las funciones que se encuentran en la libreria juego.js https:
 
 
 ```
-Luego se da inicio al juego con gracias a las funciones que se encuentran en el archivo script.js https://github.com/FranklynSistemas/Practica06/blob/gh-pages/js/script.js aqui se mencionaran las mas importantes: 
+Luego se da inicio al juego gracias a las funciones que se encuentran en el archivo script.js https://github.com/FranklynSistemas/Practica06/blob/gh-pages/js/script.js , aqui se mencionaran las mas importantes: 
 
 ```javascript
 // Función inicial, da comienzo al juego de acuerdo al nivel y dimensión que se desee
