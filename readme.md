@@ -2,9 +2,9 @@
 
 Es un juego que tiene como finalidad poner a prueba la agilidad mental del usuario
 
-# Juego
+# Juegor
 
-Jugar:http://franklynsistemas.github.io/Practica06/
+http://franklynsistemas.github.io/Practica06/
 
 # Objetivo.
 
