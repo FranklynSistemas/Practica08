@@ -2,7 +2,7 @@
 
 Es un juego que tiene como finalidad poner a prueba la agilidad mental del usuario
 
-# Juegor
+# Jugar
 
 http://franklynsistemas.github.io/Practica06/
 
@@ -12,9 +12,24 @@ El usuario vera varios cuadros que luego de un tiempo desaparecerán, la idea de
 
 ![Ocupado](https://dl.dropboxusercontent.com/u/96802130/Inicio.gif)
 
-Al finalizar la validación el juego deberá realizar el cambio de pieza presionada al espacio disponible.
+El juego validara que el orden en el que se opriman los cuadros sea el correcto.
 
-![Finaliza](https://dl.dropboxusercontent.com/u/181689/puzzle/PuzzleTerminado.gif)
+![Valida](https://dl.dropboxusercontent.com/u/96802130/Valida.gif)
+
+También se cuenta con un tiempo límite para pasar cada escenario este tiempo es de 60 segundos y una vez que el tiempo se agota el juego termina.
+
+![Tiempo](https://dl.dropboxusercontent.com/u/96802130/Tiempo.gif)
+
+El juego cuenta con 3 niveles, cada uno tiene una velocidad diferente para mostrar los cuadros aleatorios, además que por cada nivel el número de cuadros que se muestra varia, en el primer nivel es de 3 el segundo de 5 y el último de 7.
+
+![Niveles](https://dl.dropboxusercontent.com/u/96802130/Niveles.gif)
+
+Para ayudar al usuario a terminar el juego se cuenta con un botón de ayuda el cual al iniciar tiene 5 posibilidades si se usan estas disminuyen pero si se logra llegar al siguiente nivel estas ayudas aumentan en 2.
+
+![Ayudas](https://dl.dropboxusercontent.com/u/96802130/Ayudas.gif)
+
+
+
 
 # Desarrollo
 

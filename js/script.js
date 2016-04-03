@@ -8,6 +8,7 @@ $(function()
 		Puntaje=0, // variable que guardara el puntaje del usuario
 		segundos = 60,  //Tiempo límite  para avanzar al siguiente escenario 
 		tiempo = 1000; //Velocidad del reloj en milisegundos
+		clickInicio = 0;
 
 	var PosUser  = [], // Iniciación array, guarda las posiciones correctas dadas por el usuario
 		numExito = 0, // Variable utilzida para determinar cuantos existos ha tenido el usuario en un escenario
@@ -209,6 +210,7 @@ $('#Help').click(function(){
 });
 
 $('#Start').click(function(){
+	clickInicio++;
 	Puntaje=0;
 	DomPuntos.html(Puntaje);
 	PosUser  = [];
@@ -220,7 +222,10 @@ $('#Start').click(function(){
 	IniciaJuego(1);
 	DomMensajes.html("");
 	segundos = 60;
-	timer();	
+	if(clickInicio===1){
+		timer();
+	}
+		
 
 });
 
