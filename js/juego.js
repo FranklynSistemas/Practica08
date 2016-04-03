@@ -1,7 +1,7 @@
 var lib = function() {
    
     var JuegoInicial    = [],
-        dificultad      = [3, 5, 7],
+        dificultad      = [3, 5, 7], // entrega el numero de cuadrados por nivel, Nivel 1 - num de cuadrados 3
         dimension       = 0,
         nivel           = 0,
         valMaximo       = 0;
@@ -11,6 +11,7 @@ var lib = function() {
 
     var clasesAnimate = ["bounce","flash","pulse","rubberBand","shake","swing","tada","wobble","jello"];
 
+// Crea una matriz segun nivel y tamaño
     function creaJuego(size, level)
     {
         JuegoInicial = [];
@@ -28,7 +29,7 @@ var lib = function() {
         JuegoGlobal = JuegoInicial;
         return JuegoInicial;
     };
-
+// Genera las posiciones aleatorias que se mostraran al usuario
     function generaJuego(level){
         var ArrayPos=[];
         usados = [[],[]]; 
@@ -42,29 +43,25 @@ var lib = function() {
            case 3:
                 ArrayPos = aleatorio(dificultad[2]);
            break;
-
         }
 
         return ArrayPos;
     }
 
+//Genera un array de posiciones aleatorias dependiendo de la dificulta 3 , 5 , 7 
     function aleatorio(dific){
         var position = ([]);
         for (var i = 0; i < dific; i++) {
             position.push(JuegoGlobal[generAaleatorio(0,JuegoGlobal.length-1,0)][generAaleatorio(0,JuegoGlobal.length-1,1)]);
-            //console.log(position);
         };
 
         
         return position;
     }
 
-//from http://www.codigoactionscript.org/obtener-un-numero-aleatorio-sin-que-se-repita/#sthash.Gqj1Bbzn.dpuf    
-
- 
+// función para generar numeros aleatorios únicos from http://www.codigoactionscript.org/obtener-un-numero-aleatorio-sin-que-se-repita/#sthash.Gqj1Bbzn.dpuf    
 function generAaleatorio(min, max, indice)
 { 
-
     if (usados[indice].length != (max - min)) { 
         var num;
         var repe = false; 
@@ -89,10 +86,10 @@ function repetido(num, indice) {
  return repe; 
 } 
 
+// genera clases de animate aleatoriamente
 function generaClases(){
     return clasesAnimate[Math.floor(Math.random() * ((clasesAnimate.length-1) - 0 + 1)) + 0]
 }
-
 
     return {
         creaJuego : creaJuego,
