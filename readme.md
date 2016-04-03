@@ -10,7 +10,7 @@ http://franklynsistemas.github.io/Practica06/
 
 El usuario vera varios cuadros que luego de un tiempo desaparecerán, la idea del juego es adivinar que cuadros desaparecieron en el orden como iban apareciendo.
 
-![Ocupado](https://drive.google.com/file/d/0B2ixri2wRRobZ1V3Y3FualFGczA/view?usp=sharing)
+![Ocupado](https://dl.dropboxusercontent.com/u/96802130/Inicio.gif)
 
 Al finalizar la validación el juego deberá realizar el cambio de pieza presionada al espacio disponible.
 
