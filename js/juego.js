@@ -1,89 +1,97 @@
 var lib = function() {
    
-    var JuegoInicial    = [],
-        dificultad      = [3, 5, 7], // entrega el numero de cuadrados por nivel, Nivel 1 - num de cuadrados 3
-        dimension       = 0,
-        nivel           = 0,
-        valMaximo       = 0;
 
-    var JuegoGlobal = [];
-    usados = [[],[]]; 
+        Numeros = [],
+        NumNumeros = 121,
+        NumGrilla = 11,
+        Grilla = [],
+        usados = [];
+        Matriz = [];
 
     var clasesAnimate = ["bounce","flash","pulse","rubberBand","shake","swing","tada","wobble","jello"];
-
-// Crea una matriz segun nivel y tamaño
-    function creaJuego(size, level)
-    {
-        JuegoInicial = [];
-        dimension = size !== undefined ? (size < 2 || size > 7 ? 3 : size) : 3;
-        nivel = level !== undefined ? (level < 0 || level > 3 ? 1 : level) : 1;
-        valMaximo = Math.pow(dimension, 2);
-        for(var i = 0; i < dimension; i++)
-        {
-            JuegoInicial.push([]);
-            for(var c = 0; c < dimension; c++)
-            {
-                JuegoInicial[i].push(i+'_'+c);
+    
+    function GeneraNumeros(){
+        var cont = 0;
+        do{
+            if(cont<NumNumeros){
+                var random = generAaleatorio(1,NumNumeros);
+                //console.log(cont +"=="+ random);
+                Numeros.push(random);
+                cont++; 
+            }else{
+                break;
             }
-        }
-        JuegoGlobal = JuegoInicial;
-        return JuegoInicial;
+        }while(1);
     };
-// Genera las posiciones aleatorias que se mostraran al usuario
-    function generaJuego(level){
-        var ArrayPos=[];
-        usados = [[],[]]; 
-        switch(level){
-           case 1:
-                ArrayPos = aleatorio(dificultad[0]);
-           break;
-           case 2:
-                ArrayPos = aleatorio(dificultad[1]);
-           break;
-           case 3:
-                ArrayPos = aleatorio(dificultad[2]);
-           break;
-        }
 
-        return ArrayPos;
-    }
-
-//Genera un array de posiciones aleatorias dependiendo de la dificulta 3 , 5 , 7 
-    function aleatorio(dific){
-        var position = ([]);
-        for (var i = 0; i < dific; i++) {
-            position.push(JuegoGlobal[generAaleatorio(0,JuegoGlobal.length-1,0)][generAaleatorio(0,JuegoGlobal.length-1,1)]);
+    function generaGrilla(){
+        usados = [];
+        Matriz = [];
+        Numeros = [];
+        GeneraNumeros();
+        var cont = 0;
+        for (var i = 0; i <= NumNumeros; i++) {
+            cont++;
+            if(cont>=11){
+                cont=0;
+                Grilla.push({   Numero: Numeros[i],
+                                Clase: "animated "+generaClases(),
+                                Clickeado: false,
+                                Color: randomColor()
+                            });
+                Matriz.push(Grilla);
+                Grilla = [];
+            }else{
+                Grilla.push({   Numero: Numeros[i],
+                                Clase: "animated "+generaClases(),
+                                Clickeado: false,
+                                Color: randomColor()
+                            });
+            }
         };
 
-        
-        return position;
+        return ordenaIds(Matriz);
     }
 
+function ordenaIds(Mz){
+    var MatrizOrdenada = Mz;
+    for (var i = 0; i < Mz.length; i++) {
+        for (var j = 0; j < Mz[i].length; j++) {
+            MatrizOrdenada[i][j].Id = i+"_"+j;
+        };   
+    };
+    return MatrizOrdenada;
+}
+
 // función para generar numeros aleatorios únicos from http://www.codigoactionscript.org/obtener-un-numero-aleatorio-sin-que-se-repita/#sthash.Gqj1Bbzn.dpuf    
-function generAaleatorio(min, max, indice)
+function generAaleatorio(min, max)
 { 
-    if (usados[indice].length != (max - min)) { 
+    if (usados.length != NumNumeros+1) { 
         var num;
         var repe = false; 
         do { 
             num = Math.floor(Math.random() * (max - min + 1)) + min; 
-            repe = repetido(num,indice); 
+                repe = repetido(num); 
         } while (repe != false); 
-            usados[indice].push(num); 
+            usados.push(num); 
         return num; 
     } else { 
         return 0;
     } 
 }  
 
-function repetido(num, indice) {
- var repe = false; 
- for (var i = 0; i < usados.length; i++) { 
-    if (num == usados[indice][i]) {
-     repe = true; 
-    } 
- } 
- return repe; 
+function repetido(num) {
+    var repe = false; 
+        if(num != 0){
+            for (var i = 0; i < usados.length; i++) { 
+               if (num == usados[i]) {
+                repe = true; 
+               } 
+            } 
+        }else{
+            repe = false;
+        }
+    return repe; 
 } 
 
 // genera clases de animate aleatoriamente
@@ -91,9 +99,13 @@ function generaClases(){
     return clasesAnimate[Math.floor(Math.random() * ((clasesAnimate.length-1) - 0 + 1)) + 0]
 }
 
+function randomColor()
+    {
+        return '#'+(function lol(m,s,c){return s[m.floor(m.random() * s.length)] +
+        (c && lol(m,s,c-1));})(Math,'0123456789ABCDEF',4);
+    };
     return {
-        creaJuego : creaJuego,
-        generaJuego: generaJuego,
+        generaGrilla : generaGrilla,
         generaClases: generaClases
     }
 }();

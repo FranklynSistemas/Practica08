@@ -10,10 +10,11 @@ span {
 	font-size: 20px;
 }
 
-#Juego {
+/*#Juego {
 	height: 30%;
     width: 100%;
 }
+*/
 
 #Mensajes {
 	height: 30%;
@@ -23,9 +24,19 @@ span {
 	width: 60px;
 	height: 60px;
 	border: black 2px solid;
-	background-color: aqua;
+	/*background-color: aqua;*/
 	text-align: center;
-	border-radius: 10px;
+	border-radius: 50%;
+	margin: 20px;
+	color: white;
+	font-size: 20px;
+	
+}
+
+#Numero{
+	text-align: center;
+    position: relative;
+    top: 25%;
 }
 
 td {
@@ -40,7 +51,7 @@ td {
 #MyTable {
 	
 	border: 0;
-	margin: 5px;
+	/*margin: 5px;*/
  	padding: 5px;
 
 }
@@ -55,6 +66,18 @@ p {
 	
 }
 
+#NumeroaBuscar{
+	font-size: 30px;
+	color: blue;
+}
+
+.Puntaje{
+	background-color: rgba(42, 207, 176, 0) !important;
+	color: red;
+	width: 60px;
+	height: 60px;
+
+}
 
 input {
 	border: 0px;

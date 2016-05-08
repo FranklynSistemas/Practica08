@@ -5,43 +5,42 @@ $(function()
 		Posiciones = [],  // Iniciación del Array de posiciones Aleatorias
 		TiempoMax = 1200, // Tiempo máximo para la velocidad en la que aparecerán y desaparecerán los cuadros a adivinar
 		Porcentaje = 20,  // Valiable que determina el porcentaje, para la velocidad a la que aparecerán y desaparecerán los cuadros a adivinar
-		Puntaje=0, // variable que guardara el puntaje del usuario
-		segundos = 60,  //Tiempo límite  para avanzar al siguiente escenario 
+		Puntaje=0, // variable que guardara el puntaje del usuario  
 		tiempo = 1000; //Velocidad del reloj en milisegundos
-		clickInicio = 0;
-
+		clickInicio = 0,
+		segundos = 00;
+		minutos = 00;
+		horas = 00;
+		stop = false;
 	var PosUser  = [], // Iniciación array, guarda las posiciones correctas dadas por el usuario
 		numExito = 0, // Variable utilzida para determinar cuantos existos ha tenido el usuario en un escenario
 		ganados  = 0, // Variable que determina cuantos escenarios a superado el usuario
 		numClick = 0, // Variable que guarda el numero de clicks realizados por el usuario
-		numNivel1 = numNivel2 = numNivel3 = 0, // variable que determina el numero de escenario donde se encuentra el usuario
-		Ayudas = 5; //Numero de Ayudas iniciales
+		Ayudas = 3;
+		Juego = []; //Numero de Ayudas iniciales
 
 // Inicialización de componentes repetitivos del DOM
 	var DomPuntos = $("#Puntos"),
 		DomMensajes = $('#Mensajes'),
-		DomNivel = $("#Nivel");
+		DomNum = $("#NumeroaBuscar");
 
-// Función inicial, da comienzo al juego de acuerdo al nivel y dimensión que se desee
-	function IniJuego(Dimension , Nivel){
-		
-		if(Dimension !== 0 && Nivel !== 0){
-			Juego = lib.creaJuego(Dimension,Nivel);    		
-		}else{
-			Juego = lib.creaJuego(3,1);
-		}
-		 DibujaJuego(Juego);
-	}IniJuego(Dim,Niv);
-	
+	function iniciaJuego(){
+		Juego = lib.generaGrilla();
+		if(Juego[0].length === 12){Juego[0].shift(); DibujaJuego(Juego);}else{DibujaJuego(Juego);};
+	}iniciaJuego();
+
 // Función que permite dibujar la cuadricula en el id="Juego" segun la mariz optenida por lib.creaJuego() del Archivo juego.js
 function DibujaJuego(Juego){
       DomMensajes.html("");
+      DomNum.html(numClick+1);
        var tds = `<table id="MyTable">
                     <tbody>`;
     	for (var i = 0; i < Juego.length; i++) {
     		tds += '<tr>';
     		for (var j = 0; j < Juego[i].length; j++) {
-    				tds += `<td><div id="${Juego[i][j]}" class="cuadrado"></div></td>`;
+    				if(!Juego[i][j].Clickeado){
+    					tds += `<td><div id="${Juego[i][j].Id}" class="cuadrado ${Juego[i][j].Clase}" style="background-color:${Juego[i][j].Color}"><div id="Numero">${Juego[i][j].Numero}<div></div></td>`;
+    				}
     		};
     		tds += `</tr>`;
     	};
@@ -50,39 +49,13 @@ function DibujaJuego(Juego){
 			$("#Juego").html(tds);
 // Se asignan los eventos a todos los div de clase .cuadrado			
 	$(".cuadrado").click(function() {
+		  numClick++;
           var oID = $(this).attr("id");
           console.log(oID);
-          valida(oID);
+          //valida(oID);
+          console.log(validaClick(oID,numClick));
 	});
 
-}
-
-// Funcion que da inicio al juego, mostrando los cuadrados que debera adivinar el usuario
-function IniciaJuego(level){
-	var cont=0,
-		contRemove=0,
-		clases = [];
-
-	Posiciones = lib.generaJuego(level);
-	console.log(Posiciones);
-	
-	if(cont < Posiciones.length){
-		setInterval(function(){
-			clases.push(lib.generaClases());
-			$('#'+Posiciones[cont])
-				.css("background-color",randomColor())
-				.addClass("animated "+clases[cont]);
-			cont++;
-		if(cont === Posiciones.length && contRemove<Posiciones.length){
-			setInterval(function(){
-				$('#'+Posiciones[contRemove])
-				.removeClass("animated "+clases[contRemove])
-				.css("background-color","aqua");
-				contRemove++;
-			},GeneraTiempo(level));
-		}
-		},GeneraTiempo(level));
-	}
 }
 
 // función que permite generar un tiempo, para la velocidad con la que se muestran los cuadrados a adivinar 
@@ -90,74 +63,24 @@ function GeneraTiempo(level){
 	return TiempoMax - ((TiempoMax * (level*Porcentaje))/100);	
 }
 
-// Función que valida cada click que da el usuario en busca de si ha dado click en el cuadrado correcto
-function valida(id){
- 	if(validaPos(id)!=null && segundos > 0){
- 		numClick++;
- 		console.log("Numero de Click "+numClick);
- 		console.log("Posicion validaPos: "+validaPos(id)+" numClick: "+numClick-1);
- 		PosUser.push(id);
- 		console.log("Posiciones: "+Posiciones[validaPos(id)]+" PosUser: "+PosUser[numClick-1])
- 		
- 		if (Posiciones[numClick-1] === PosUser[numClick-1]) {
- 			DomPuntos.html(Puntaje+=10);
- 			$("#"+id).css("background-color","chartreuse");
- 			numExito++;
- 		}else{
- 			var claseMensaje = lib.generaClases();
- 			$("#"+id).css("background-color","red");
- 			DomMensajes.html("<p style='color:red'>El Orden es el Incorrecto,  Intente de nuevo</p>").addClass("animated "+claseMensaje);
- 			setTimeout(function(){
- 					$("#"+id).css("background-color","aqua");
- 					DomMensajes.html("").removeClass("animated "+claseMensaje);	
- 			},1000);
- 			
- 			numClick--;
- 			PosUser.pop();
- 		};
- 	}
- 	console.log("Numero de Exitos: "+numExito);
- 	if( segundos>=0){
-	 	if (numExito === Posiciones.length) {
-	 		PosUser  = [];
-			numExito = 0;
-			numClick = 0;
-			ganados++;
 
-			for (var i = Posiciones.length - 1; i >= 0; i--) {
-				$("#"+Posiciones[i]).css("background-color","aqua");
-			};
-			console.log("Ha Ganado: "+ganados);
-			if (ganados <= 3) {
-				DomNivel.html(1+"-"+numNivel1++);
-				IniciaJuego(1);
-				segundos = 60;
-			}else if(ganados > 3 && ganados <= 6){
-				DomNivel.html(2+"-"+numNivel2++);
-				IniJuego(5,2);
-				IniciaJuego(2);
-				segundos = 60;
-				Ayudas += 2;
-				$('#Help').html("Ayudas "+Ayudas);
-			}else if(ganados > 6 && ganados <= 10){
-				DomNivel.html(3+"-"+numNivel3++);
-				IniJuego(7,3);
-				IniciaJuego(3);
-				segundos = 60;
-				Ayudas += 2;
-				$('#Help').html("Ayudas "+Ayudas);
-			}else if(ganados > 10){
-				$("#Juego").html("<p style='color:green'>Felicidades ha ganado todo, para volver a jugar oprima el boton 'Iniciar'</p>")
-				.addClass("animated "+generaClases());
-				segundos = 61;
-			}
-	 	}
- 	}
- }
+function validaClick(id,click){
+ var idSeparado = id.split("_");
+	if(Juego[idSeparado[0]][idSeparado[1]].Numero === click){
+		Juego[idSeparado[0]][idSeparado[1]].Clickeado = true;
+		$("#"+id).removeClass("cuadrado ").addClass("Puntaje");
+		$("#"+id).html("<div id='Numero'><b>¡10 puntos!<b></div>").fadeOut(800);
+		DomPuntos.html(Puntaje+=10);
+		DomNum.html(numClick+1);
+		return true;
+	}else{
+		numClick--;
+		return false;
+	}
 
-/*	Función utilizada para obtener la posición del cuadrado oprimido por el usuario, 
-	esto ayudara a saber si se está realizando el juego en el orden correcto
-*/
+}
+
+
 function validaPos(id){
 	for (var i = 0; i < Posiciones.length; i++) {
  		if(Posiciones[i]===id){
@@ -177,15 +100,25 @@ function randomColor()
 
 // Genera el tiempo para completar el juego y lo muestra en el DOM
 function timer(){
-	segundos--;
-	if(segundos>=0){
-		$("#Cronometro").html(00+":"+segundos);
+	var segundosString = '00',
+		minutosString = '00',
+		horasString = '00';
+	if(!stop){	
+		if(segundos<=60){
+			segundosString = segundos<10 ? "0"+segundos++ : segundos++;
+		}else if(minutos<=60){
+			minutos++;
+			minutosString = minutos<10 ? "0"+minutos++ : minutos++;
+			segundos=0;
+		}else if(horas<=24){
+			horas++;
+			horasString = horas<10 ? "0"+horas++ : horas++;
+			minutos=0;
+		}
+		$("#Cronometro").html(horasString+":"+minutosString+":"+segundosString);
 		setTimeout(function(){timer()},tiempo);
-	}else{
-		segundos < 60 ? DomMensajes.html("<p style='color:red'>Se termino el tiempo, Intente volver a Jugar</p>") : $("#Cronometro").html(00+":"+segundos);
- 	
- 	}
-}
+	}
+}timer();
 // Muestra los cuadrados que le hacen falta al usuario
 function Ayuda(){
 	var clase = lib.generaClases();
@@ -210,22 +143,15 @@ $('#Help').click(function(){
 });
 
 $('#Start').click(function(){
-	clickInicio++;
+	numClick=0;
 	Puntaje=0;
-	DomPuntos.html(Puntaje);
-	PosUser  = [];
-	numExito = 0;
-	ganados  = 0;
-	numNivel1 = numNivel2 = numNivel3 = 0;
-	DomNivel.html(1+"-"+0);
-	IniJuego(0,0);
-	IniciaJuego(1);
+	Juego = [];
+	DomPuntos.html(Puntaje);	
+	iniciaJuego()
 	DomMensajes.html("");
-	segundos = 60;
-	if(clickInicio===1){
-		timer();
-	}
-		
+	segundos = 00;
+	minutos = 00;
+	horas = 00;
 
 });
 
