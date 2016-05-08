@@ -1,35 +1,28 @@
 $(function()
 {
-	var Dim=0, // Dimensión Inicial del Juego
-		Niv=0, // Nivel Inicial del Juego
-		Posiciones = [],  // Iniciación del Array de posiciones Aleatorias
-		TiempoMax = 1200, // Tiempo máximo para la velocidad en la que aparecerán y desaparecerán los cuadros a adivinar
-		Porcentaje = 20,  // Valiable que determina el porcentaje, para la velocidad a la que aparecerán y desaparecerán los cuadros a adivinar
-		Puntaje=0, // variable que guardara el puntaje del usuario  
+	var Puntaje=0, // variable que guardara el puntaje del usuario  
 		tiempo = 1000; //Velocidad del reloj en milisegundos
-		clickInicio = 0,
 		segundos = 00;
-		minutos = 00;
-		horas = 00;
-		stop = false;
-	var PosUser  = [], // Iniciación array, guarda las posiciones correctas dadas por el usuario
-		numExito = 0, // Variable utilzida para determinar cuantos existos ha tenido el usuario en un escenario
-		ganados  = 0, // Variable que determina cuantos escenarios a superado el usuario
+		minutos = 1;
+		horas = 1;
+		numExitos = 0,
+		NumNumeros=121,
 		numClick = 0, // Variable que guarda el numero de clicks realizados por el usuario
-		Ayudas = 3;
-		Juego = []; //Numero de Ayudas iniciales
+		Ayudas = 5, //Numero de Ayudas iniciales
+		Juego = []; //Guarda toda la matriz del juego
 
 // Inicialización de componentes repetitivos del DOM
 	var DomPuntos = $("#Puntos"),
 		DomMensajes = $('#Mensajes'),
 		DomNum = $("#NumeroaBuscar");
-
+		
+//Genera una nueva de grilla de numeros Aleatorios
 	function iniciaJuego(){
 		Juego = lib.generaGrilla();
 		if(Juego[0].length === 12){Juego[0].shift(); DibujaJuego(Juego);}else{DibujaJuego(Juego);};
 	}iniciaJuego();
 
-// Función que permite dibujar la cuadricula en el id="Juego" segun la mariz optenida por lib.creaJuego() del Archivo juego.js
+// Función que permite dibujar la cuadricula en el id="Juego" segun la mariz optenida por lib.generaGrilla() del Archivo juego.js
 function DibujaJuego(Juego){
       DomMensajes.html("");
       DomNum.html(numClick+1);
@@ -51,27 +44,24 @@ function DibujaJuego(Juego){
 	$(".cuadrado").click(function() {
 		  numClick++;
           var oID = $(this).attr("id");
-          console.log(oID);
-          //valida(oID);
-          console.log(validaClick(oID,numClick));
+          //console.log(oID);
+          validaClick(oID,numClick);
 	});
-
 }
 
-// función que permite generar un tiempo, para la velocidad con la que se muestran los cuadrados a adivinar 
-function GeneraTiempo(level){
-	return TiempoMax - ((TiempoMax * (level*Porcentaje))/100);	
-}
-
-
+//Valida si al div que le dan click posee el numero que debe ser dependendo la cantidad de clicks dados
 function validaClick(id,click){
  var idSeparado = id.split("_");
 	if(Juego[idSeparado[0]][idSeparado[1]].Numero === click){
+		numExitos++;
 		Juego[idSeparado[0]][idSeparado[1]].Clickeado = true;
 		$("#"+id).removeClass("cuadrado ").addClass("Puntaje");
 		$("#"+id).html("<div id='Numero'><b>¡10 puntos!<b></div>").fadeOut(800);
 		DomPuntos.html(Puntaje+=10);
-		DomNum.html(numClick+1);
+		if(numClick<NumNumeros){
+			DomNum.html(numClick+1);
+			if(numExitos===5){Ayudas += 1; numExitos=0; $('#Help').html("Ayuda "+Ayudas);};
+		}
 		return true;
 	}else{
 		numClick--;
@@ -80,63 +70,53 @@ function validaClick(id,click){
 
 }
 
-
-function validaPos(id){
-	for (var i = 0; i < Posiciones.length; i++) {
- 		if(Posiciones[i]===id){
- 			console.log(i);
- 			return i;
- 		}
- 	}
- 	return null;
-}
-
-// Función obtenida de http://www.paulirish.com/2009/random-hex-color-code-snippets/ genera colores aleatoriamente
-function randomColor()
-	{
-	   	return '#'+(function lol(m,s,c){return s[m.floor(m.random() * s.length)] +
-	   	(c && lol(m,s,c-1));})(Math,'0123456789ABCDEF',4);
-	};
-
 // Genera el tiempo para completar el juego y lo muestra en el DOM
-function timer(){
-	var segundosString = '00',
+var     segundosString = '00',
 		minutosString = '00',
-		horasString = '00';
-	if(!stop){	
-		if(segundos<=60){
+		horasString = '00',
+		reloj='';
+function timer(){
+	if(numClick<NumNumeros){	
+		if(segundos<60){
 			segundosString = segundos<10 ? "0"+segundos++ : segundos++;
-		}else if(minutos<=60){
-			minutos++;
+		}else if(minutos<60){
 			minutosString = minutos<10 ? "0"+minutos++ : minutos++;
+			console.log("entre"+minutosString);
 			segundos=0;
-		}else if(horas<=24){
-			horas++;
+		}else if(horas<24){
 			horasString = horas<10 ? "0"+horas++ : horas++;
 			minutos=0;
 		}
-		$("#Cronometro").html(horasString+":"+minutosString+":"+segundosString);
-		setTimeout(function(){timer()},tiempo);
+	}else{
+		alertify.alert("<b>Felicitaciones a terminado el juego en: "+horas+":"+minutos+":"+segundos+" y su puntaje fue de: "+Puntaje+"</b>");
 	}
+	reloj = horasString+":"+minutosString+":"+segundosString;
+	$("#Cronometro").html(reloj);
+	setTimeout(function(){timer()},tiempo);
 }timer();
-// Muestra los cuadrados que le hacen falta al usuario
+
+// Elimina el numero para el que se quiere la ayuda pero le quita -10 putos al jugador
 function Ayuda(){
-	var clase = lib.generaClases();
-	$("#"+Posiciones[numClick])
-				.css("background-color",randomColor())
-				.addClass("animated "+clase);
-	setTimeout(function(){
-		$('#'+Posiciones[numClick])
-				.removeClass("animated "+clase)
-				.css("background-color","aqua");	
-	},500);
+	for (var i = 0; i < Juego.length; i++) {
+		for (var j = 0; j < Juego[i].length; j++) {
+			if(Juego[i][j].Numero===numClick){
+				Juego[i][j].Clickeado = true;
+				$("#"+i+"_"+j).removeClass("cuadrado ").addClass("Puntaje");
+				$("#"+i+"_"+j).html("<div id='Numero'><b>¡-10 puntos!<b></div>").fadeOut(800);
+				DomPuntos.html(Puntaje-=10);
+				if(numClick<NumNumeros){
+					DomNum.html(numClick+1);
+				}
+				break;
+			}
+		};
+	};
 }
-
 // Eventos click --------------------------------------
-
 $('#Help').click(function(){
-	if(Ayudas>0 && Posiciones.length>0 && segundos>0){
+	if(Ayudas>0){
 		Ayudas--;
+		numClick++;
 		$('#Help').html("Ayuda "+Ayudas);
 		Ayuda();
 	}
@@ -154,6 +134,11 @@ $('#Start').click(function(){
 	horas = 00;
 
 });
-
+// Prohíbe el uso de ctrl + f tomado de http://stackoverflow.com/questions/7091538/is-it-possible-to-disable-ctrl-f-of-find-in-page
+window.addEventListener("keydown",function (e) {
+    if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) { 
+        e.preventDefault();
+    }
+});
 
 });

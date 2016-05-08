@@ -1,21 +1,19 @@
 var lib = function() {
    
-
-        Numeros = [],
-        NumNumeros = 121,
-        NumGrilla = 11,
-        Grilla = [],
-        usados = [];
-        Matriz = [];
+        Numeros = [], //Guardara un array de numeros de 1 a 121 de forma aleatoria
+        NumNumeros = 121, //Cantidad de numeros a generar
+        NumGrilla = 11, // Cantidad de numeros por columna
+        Grilla = [], // Guardara cada gilla de 11
+        usados = [], // Almacena los numeros que ya se han asignado para no repetir numeros
+        Matriz = []; // Guarda toda las grillas generadas de a 11 en una sola Matriz
 
     var clasesAnimate = ["bounce","flash","pulse","rubberBand","shake","swing","tada","wobble","jello"];
-    
+ //la funcion GeneraNumeros crea el array con los numeros del 1 al 121 de forma aleatoria   
     function GeneraNumeros(){
         var cont = 0;
         do{
             if(cont<NumNumeros){
                 var random = generAaleatorio(1,NumNumeros);
-                //console.log(cont +"=="+ random);
                 Numeros.push(random);
                 cont++; 
             }else{
@@ -23,7 +21,7 @@ var lib = function() {
             }
         }while(1);
     };
-
+//La funcion generaGrilla recorre el array de numeros y lo va separando en 11 partes
     function generaGrilla(){
         usados = [];
         Matriz = [];
@@ -32,7 +30,7 @@ var lib = function() {
         var cont = 0;
         for (var i = 0; i <= NumNumeros; i++) {
             cont++;
-            if(cont>=11){
+            if(cont>=NumGrilla){
                 cont=0;
                 Grilla.push({   Numero: Numeros[i],
                                 Clase: "animated "+generaClases(),
@@ -49,10 +47,10 @@ var lib = function() {
                             });
             }
         };
-
         return ordenaIds(Matriz);
-    }
+    };
 
+// la funcion ordenaIds genera los ids propios de cada posicion de los numeros dentro de la Matriz esto para luego acceder a ellos
 function ordenaIds(Mz){
     var MatrizOrdenada = Mz;
     for (var i = 0; i < Mz.length; i++) {
@@ -99,6 +97,7 @@ function generaClases(){
     return clasesAnimate[Math.floor(Math.random() * ((clasesAnimate.length-1) - 0 + 1)) + 0]
 }
 
+// from http://www.paulirish.com/2009/random-hex-color-code-snippets/
 function randomColor()
     {
         return '#'+(function lol(m,s,c){return s[m.floor(m.random() * s.length)] +
